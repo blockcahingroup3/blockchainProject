@@ -1,0 +1,147 @@
+import React, {Component} from 'react'
+import QrReader from 'react-qr-scanner'
+
+class QrContainer extends Component {
+  constructor(props){
+    super(props)
+    this.state = {
+      result: 'Hold QR Code Steady and Clear to Scan',
+    }
+    this.handleScan = this.handleScan.bind(this)
+  }
+
+  handleScan(result){
+    this.setState({
+      result: result
+    })
+  }
+
+  handleError(err){
+    console.error(err)
+  }
+  /*async handleScan(result) {
+	const contract = new web3.eth.Contract(contractAbi, contractAddress);
+	const data = await contract.methods.myViewFunction().call();
+	this.setState({ result: data });
+  }*/
+  
+
+  render(){
+    const previewStyle = {
+      height: 400,
+      width:  600,
+      display: 'flex',
+      "justify-content": 'center'
+    }
+
+    const camStyle = {
+      display: 'flex',
+      justifyContent: "center",
+      marginTop: '-50px'
+    }
+
+    const textStyle = {
+      fontSize: '30px',
+      "text-align": 'center',
+      marginTop: '-50px'
+    }
+
+    return(
+      <React.Fragment>
+
+        <div style = {camStyle}>
+          <QrReader
+            delay = {100}
+            style = {previewStyle}
+            onError = {this.handleError}
+            onScan = {this.handleScan}
+            />
+
+        </div>
+        <p style={textStyle}>
+          {this.state.result}
+        </p>
+      </React.Fragment>
+    )
+  }
+}
+export default QrContainer
+
+/*
+import React, { Component } from 'react';
+import Web3 from 'web3';
+import MyContractABI from './MyContractABI.json';
+
+class QrContainer extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      result: 'Hold QR Code Steady and Clear to Scan',
+    };
+    this.handleScan = this.handleScan.bind(this);
+  }
+
+  handleScan(result) {
+    this.setState({
+      result: result,
+    });
+  }
+
+  handleError(err) {
+    console.error(err);
+  }
+
+  async componentDidMount() {
+    // Connect to the blockchain network using web3.js
+    const web3 = new Web3('http://localhost:8545');
+    const networkId = await web3.eth.net.getId();
+
+    // Load the smart contract ABI
+    const MyContract = new web3.eth.Contract(
+      MyContractABI,
+      '0x1234567890123456789012345678901234567890' // Replace with the actual contract address
+    );
+
+    // Call the view function in the smart contract
+    const result = await MyContract.methods.myViewFunction().call();
+    this.setState({ result });
+  }
+
+  render() {
+    const previewStyle = {
+      height: 400,
+      width: 600,
+      display: 'flex',
+      justifyContent: 'center',
+    };
+
+    const camStyle = {
+      display: 'flex',
+      justifyContent: 'center',
+      marginTop: '-50px',
+    };
+
+    const textStyle = {
+      fontSize: '30px',
+      textAlign: 'center',
+      marginTop: '-50px',
+    };
+
+    return (
+      <React.Fragment>
+        <div style={camStyle}>
+          <QrReader
+            delay={100}
+            style={previewStyle}
+            onError={this.handleError}
+            onScan={this.handleScan}
+          />
+        </div>
+        <p style={textStyle}>{this.state.result}</p>
+      </React.Fragment>
+    );
+  }
+}
+
+export default QrContainer;
+*/
